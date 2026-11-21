@@ -201,7 +201,7 @@ form {
   display: grid;
   gap: 16px;
 }
-label {
+.field {
   display: grid;
   gap: 7px;
   font-size: 13px;

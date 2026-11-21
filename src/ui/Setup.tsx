@@ -46,9 +46,10 @@ export function Setup({ submit, busy }: { submit: (s: Save) => void; busy: boole
             })
           }}
         >
-          <label>
-            Call sign
+          <div className="field">
+            <label htmlFor="setup-name">Call sign</label>
             <input
+              id="setup-name"
               required
               pattern=".*\S.*"
               maxLength={40}
@@ -57,10 +58,11 @@ export function Setup({ submit, busy }: { submit: (s: Save) => void; busy: boole
               value={profile.name}
               onInput={(e) => change('name', e.currentTarget.value)}
             />
-          </label>
-          <label>
-            Home city
+          </div>
+          <div className="field">
+            <label htmlFor="setup-city">Home city</label>
             <select
+              id="setup-city"
               value={profile.city}
               onChange={(e) => change('city', e.target.value as Profile['city'])}
             >
@@ -70,11 +72,12 @@ export function Setup({ submit, busy }: { submit: (s: Save) => void; busy: boole
                 </option>
               ))}
             </select>
-          </label>
+          </div>
           <div className="pair">
-            <label>
-              Occupation
+            <div className="field">
+              <label htmlFor="setup-occupation">Occupation</label>
               <select
+                id="setup-occupation"
                 value={profile.role}
                 onChange={(e) => change('role', e.target.value as Profile['role'])}
               >
@@ -82,10 +85,11 @@ export function Setup({ submit, busy }: { submit: (s: Save) => void; busy: boole
                   <option key={r}>{r}</option>
                 ))}
               </select>
-            </label>
-            <label>
-              Household
+            </div>
+            <div className="field">
+              <label htmlFor="setup-household">Household</label>
               <select
+                id="setup-household"
                 value={profile.household}
                 onChange={(e) => change('household', e.target.value as Profile['household'])}
               >
@@ -93,11 +97,12 @@ export function Setup({ submit, busy }: { submit: (s: Save) => void; busy: boole
                   <option key={h}>{h}</option>
                 ))}
               </select>
-            </label>
+            </div>
           </div>
-          <label>
-            Starting reserve
+          <div className="field">
+            <label htmlFor="setup-reserve">Starting reserve</label>
             <select
+              id="setup-reserve"
               value={profile.reserve}
               onChange={(e) => change('reserve', e.target.value as Profile['reserve'])}
             >
@@ -107,10 +112,12 @@ export function Setup({ submit, busy }: { submit: (s: Save) => void; busy: boole
                 </option>
               ))}
             </select>
-          </label>
-          <label>
-            Scenario seed
+          </div>
+          <div className="field">
+            <label htmlFor="setup-seed">Scenario seed</label>
             <input
+              id="setup-seed"
+              aria-describedby="setup-seed-help"
               spellCheck={false}
               required
               pattern=".*\S.*"
@@ -118,8 +125,8 @@ export function Setup({ submit, busy }: { submit: (s: Save) => void; busy: boole
               value={seed}
               onInput={(e) => setSeed(e.currentTarget.value)}
             />
-            <small>Use the same seed to replay the same world events.</small>
-          </label>
+            <small id="setup-seed-help">Use the same seed to replay the same world events.</small>
+          </div>
           <button className="primary" disabled={busy}>
             Open first dispatch <span aria-hidden="true">→</span>
           </button>
