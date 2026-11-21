@@ -20,6 +20,12 @@ Choose a call sign, home city, occupation, household and cash reserve. Read a di
 
 Use the same seed to compare households under the same world conditions. Use the same profile, seed and choices to reproduce an entire run. The app saves after each decision and after advancing past its receipt.
 
+## Living World edition
+
+Choose **Living World · 14 days** under **Campaign edition** to play the second Orison Strait campaign. Reserve a future crate, take dock work, join the food rota or recover. The morning dispatch shows local prices, labour demand and commitments. Select **Trace change** on an evening posting to follow its causes back to a decision or a fictional event. Both editions resume their own rules from the current saved issue.
+
+See [Living World rules and save format](docs/living-world.md) for the daily sequence, units, delayed effects, offline play and platform limits.
+
 ## Development
 
 OpenAI Codex is the primary development environment.
@@ -27,7 +33,7 @@ OpenAI Codex is the primary development environment.
 Use Node.js 24 with npm. From the repository root:
 
 ```sh
-npm install
+npm ci
 npm run dev
 ```
 

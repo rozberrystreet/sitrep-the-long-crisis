@@ -516,3 +516,12 @@ footer b {
     width: calc(100% - 32px);
   }
 }
+
+.cause-reader:not(:empty) {
+  border-inline-start: 3px solid var(--red);
+  padding-inline-start: 16px;
+}
+.cause-reader .link {
+  min-height: 44px;
+  text-align: start;
+}
