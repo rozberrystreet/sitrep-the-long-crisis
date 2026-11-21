@@ -1,14 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { decode, readSave, replay, writeSave } from './save.ts'
-import type { Save } from './save.ts'
+import { readSave, replay } from './save.ts'
+import { decodeCampaign, writeCampaign } from './campaignSave.ts'
+import type { CampaignSave } from './campaignSave.ts'
+import { LivingIssue } from './ui/LivingIssue.tsx'
+import { orison } from './simulation/v2/scenario.ts'
 import { DAYS } from './simulation/engine.ts'
 import { Setup } from './ui/Setup.tsx'
 import { Debrief, Issue, Outcome } from './ui/Issue.tsx'
 import './style.css'
 
 function App() {
-  const [save, setSave] = useState<Save | null>(null)
+  const [save, setSave] = useState<CampaignSave | null>(null)
   const [ready, setReady] = useState(false)
   const [busy, setBusy] = useState(false)
   const [problem, setProblem] = useState('')
@@ -24,10 +27,10 @@ function App() {
     try {
       const raw = await readSave()
       original.current = raw
-      let loaded: Save | null = null
+      let loaded: CampaignSave | null = null
       if (raw !== null) {
         try {
-          loaded = decode(raw)
+          loaded = decodeCampaign(raw)
         } catch {
           setCorrupt(true)
           setProblem(
@@ -63,19 +66,19 @@ function App() {
     ? 'setup'
     : save.reviewing
     ? 'receipt'
-    : save.choices.length === DAYS
+    : save.choices.length === (save.version === 2 ? orison.days : DAYS)
     ? 'end'
     : 'report'
   useEffect(() => {
     main.current?.querySelector<HTMLElement>('h1')?.focus({ preventScroll: true })
     window.scrollTo(0, 0)
   }, [screen])
-  async function change(next: Save | null) {
+  async function change(next: CampaignSave | null) {
     if (pending.current) return
     pending.current = true
     setBusy(true)
     try {
-      if (!temporary) original.current = await writeSave(original.current, next)
+      if (!temporary) original.current = await writeCampaign(original.current, next)
       setSave(next)
       setCorrupt(false)
       setReset(false)
@@ -89,7 +92,7 @@ function App() {
       pending.current = false
     }
   }
-  const run = save ? replay(save) : null
+  const run = save?.version === 1 ? replay(save) : null
   return (
     <>
       <a className="skip" href="#desk">
@@ -136,6 +139,8 @@ function App() {
               </button>
             )}
           </section>
+        ) : save?.version === 2 ? (
+          <LivingIssue save={save} busy={busy} change={change} restart={() => setReset(true)} />
         ) : !save || !run ? (
           <Setup submit={change} busy={busy} />
         ) : save.reviewing ? (

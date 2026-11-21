@@ -1,5 +1,7 @@
 # Architecture
 
+The application selects a decoder by save version. The sections below describe the first edition. See [Living World](living-world.md) for the second edition.
+
 ## One turn
 
 The app loads a v1 save, replays its decisions, and renders either the morning report, its most recent evening receipt, or the closing edition. A decision moves the household forward exactly one turn. Reading the next dispatch only changes the view. Reloading the evening ledger never settles a day twice.
@@ -8,7 +10,8 @@ The app loads a v1 save, replays its decisions, and renders either the morning r
 | --- | --- |
 | `simulation/engine.ts` | Pure initialisation, seeded world transitions, local terms, eligibility, household settlement and signed ledger entries |
 | `simulation/dispatch.ts` | Authored fiction and education, with contextual copy selected from computed conditions |
-| `save.ts` | Schema validation, deterministic replay and transactional IndexedDB reads and writes |
+| `save.ts` | V1 schema validation and deterministic replay |
+| `storage.ts` | Shared transactional IndexedDB reads and compare-and-replace writes |
 | `ui/` | Player dossier, fictional route chart, Daily SITREP, receipts and end-of-week archive |
 | `main.tsx` | Async loading, transition guards, recovery, reset confirmation and focus management |
 
